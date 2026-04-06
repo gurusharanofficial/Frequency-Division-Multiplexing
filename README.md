@@ -30,6 +30,40 @@ At the receiver, each signal is recovered by multiplying the multiplexed signal 
 
 PROGRAM
 
+```
+t = linspace(0, 1, 1000);
+freqs = [5, 5.5, 6, 6.5, 7, 7.5];
+signals = zeros(6, length(t));
+for i = 1:6
+signals(i, :) = sin(2 * %pi * freqs(i) * t);
+end
+fdm_signal = zeros(1, length(t));
+for i = 1:6
+fdm_signal = fdm_signal + signals(i, :);
+end
+demux_signals = zeros(6, length(t));
+for i = 1:6
+demux_signals(i, :) = fdm_signal .* sin(2 * %pi * freqs(i) * t);
+end
+scf(1);
+clf;
+for i = 1:6
+subplot(3,2,i);
+plot(t, signals(i, :));
+title('Original Signal f=' + string(freqs(i)));
+end
+scf(2);
+clf;
+plot(t, fdm_signal);
+title("FDM Signal");
+scf(3);
+clf;
+for i = 1:6
+subplot(3,2,i);
+plot(t, demux_signals(i, :));
+title('Demultiplexed Signal f=' + string(freqs(i)));
+end
+```
 
 OUTPUT WAVEFORM
 <img width="733" height="574" alt="Screenshot 2026-03-27 120055" src="https://github.com/user-attachments/assets/b304d874-1d4e-41bd-a5b5-d3c968256df9" />
@@ -37,6 +71,7 @@ OUTPUT WAVEFORM
 <img width="744" height="587" alt="Screenshot 2026-03-27 120145" src="https://github.com/user-attachments/assets/359f9a13-034d-4d50-8d4d-3600a1978cd6" />
 
 Tabulation
+
 ![WhatsApp Image 2026-04-04 at 11 09 22](https://github.com/user-attachments/assets/311a091a-da2a-4b00-ae45-903d31190f5e)
 
 RESULT
